@@ -103,11 +103,14 @@ export default function Queue() {
 	const playingVideoId = player.info?.track?.videoId ?? null;
 	const currentIndex = resolveCurrentIndex(queue, playingVideoId);
 
-	// Refetch when the player moves to a track the snapshot cannot explain — the
-	// queue itself changed (radio autoplay, a new playlist). The ref keeps the
-	// first reading from refetching the queue that was just loaded on mount.
+	// Refetch on every track change: a new track can mean the queue itself changed
+	// (radio autoplay, a new playlist), not just its position. Seeded from the
+	// first player reading that lands, so the queue loaded on mount is not
+	// immediately fetched a second time.
+	const hasPlayerInfo = player.info !== null;
 	const lastVideoId = useRef<string | null | undefined>(undefined);
 	useEffect(() => {
+		if (!hasPlayerInfo) return;
 		if (lastVideoId.current === undefined) {
 			lastVideoId.current = playingVideoId;
 			return;
@@ -115,7 +118,7 @@ export default function Queue() {
 		if (lastVideoId.current === playingVideoId) return;
 		lastVideoId.current = playingVideoId;
 		void refresh();
-	}, [playingVideoId, refresh]);
+	}, [hasPlayerInfo, playingVideoId, refresh]);
 
 	const playerRefresh = player.refresh;
 	const reload = useCallback(() => {
