@@ -12,6 +12,10 @@ Written against the native Vicinae API. It talks to Kaset over AppleScript and c
 
 It is a ground-up rewrite of the Raycast extension [Kaset Control](https://www.raycast.com/endiruslan/kaset-control) by Ruslan Hryshchenko ([@endiruslan](https://github.com/Endiruslan)) — see [Credits](#credits).
 
+## Screenshots
+
+![Every command in root search, each with its own icon](./.github/assets/screenshot-1.png)
+
 ## Requirements
 
 - macOS, with [Kaset](https://github.com/sozercan/kaset) installed.
